@@ -1,3 +1,19 @@
+## Testing
+
+Run the comprehensive demo to see all features in action:
+
+```bash
+python demo_test_cases.py
+```
+
+The demo includes:
+- Product and user setup
+- Various order scenarios
+- Payment processing
+- Status reporting
+- Blacklisting simulation
+- Edge case testing
+
 # BNPL (Buy Now, Pay Later) System
 
 A comprehensive Buy Now, Pay Later system implementation in Python that manages inventory, users, orders, and credit facilities with automatic default detection and blacklisting functionality.
@@ -202,22 +218,6 @@ system.clear_dues("U001", 500.0)
 system.check_and_update_defaults("U001")
 # Orders marked as defaulted, user may be blacklisted
 ```
-
-## Testing
-
-Run the comprehensive demo to see all features in action:
-
-```bash
-python demo_test_cases.py
-```
-
-The demo includes:
-- Product and user setup
-- Various order scenarios
-- Payment processing
-- Status reporting
-- Blacklisting simulation
-- Edge case testing
 
 ## File Structure
 
