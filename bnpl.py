@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 from data_models import *
 import uuid
@@ -80,6 +81,10 @@ class BNPLSystem:
     
     def place_order(self, user_id: str, product_id: str, quantity: int, payment_mode: PaymentMode) -> Optional[str]:
         try:
+            if quantity <= 0:
+                print(f"Quantity value must be positive")
+                return None
+
             if user_id not in self.users:
                 print(f"User {user_id} not found")
                 return None
@@ -105,11 +110,13 @@ class BNPLSystem:
                     return None
                 
                 if user.available_credit() < total_amount:
-                    print(f"Insufficient credit. Available: ${user.available_credit()}, Required: ${total_amount}")
+                    print(f"Insufficient credit. Available: ₹{user.available_credit()}, Required: ₹{total_amount}")
                     return None
             
             order_id = str(uuid.uuid4())
-            order = Order(order_id, user_id, product_id, quantity, total_amount, payment_mode)
+            amount_paid = 0 if payment_mode == PaymentMode.BNPL else total_amount
+            remaining_amount = total_amount if payment_mode == PaymentMode.BNPL else 0
+            order = Order(order_id, user_id, product_id, quantity, total_amount, payment_mode, datetime.now() + timedelta(days=30), OrderStatus.PLACED, amount_paid, remaining_amount)
             
             inventory_item.quantity -= quantity
             
@@ -166,14 +173,14 @@ class BNPLSystem:
                     order.status = OrderStatus.PAID
                     print(f"Order {order.order_id} fully paid")
                 else:
-                    print(f"Partial payment of ${payment_for_this_order} applied to order {order.order_id}")
+                    print(f"Partial payment of ₹{payment_for_this_order} applied to order {order.order_id}")
             
             credit_freed = amount - remaining_payment
             user.used_credit -= credit_freed
             
-            print(f"Payment of ${credit_freed} processed for user {user_id}")
+            print(f"Payment of ₹{credit_freed} processed for user {user_id}")
             if remaining_payment > 0:
-                print(f"${remaining_payment} could not be applied (no pending dues)")
+                print(f"₹{remaining_payment} could not be applied (no pending dues)")
             
             return True
             

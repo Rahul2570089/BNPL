@@ -11,7 +11,7 @@ class OrderStatus(Enum):
     DEFAULTED = "DEFAULTED"
 
 class Product:
-    def __init__(self, product_id, name, category, price=100, description=0):
+    def __init__(self, product_id, name, category, price=100, description=""):
         self.product_id = product_id
         self.name = name
         self.category = category

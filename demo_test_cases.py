@@ -11,9 +11,10 @@ def run_comprehensive_demo():
     print("-" * 30)
     
     products = [
-        Product("P001", "iPhone 15", 999.99, "Electronics", "Apple smartphone"),
-        Product("P002", "MacBook Air", 1299.99, "Electronics", "Apple laptop"),
-        Product("P003", "Nike Shoes", 129.99, "Fashion", "Running shoes"),
+        Product("P001", "iPhone 15", "Electronics", 50999.99, "Apple smartphone"),
+        Product("P002", "MacBook Air", "Electronics", 129999.99, "Apple laptop"),
+        Product("P003", "Nike Shoes", "Fashion", 4299.99, "Running shoes"),
+        Product("P004", "Puma Shoes", "Fashion", 2299.99, "Running shoes"),
     ]
     
     for product in products:
@@ -23,9 +24,9 @@ def run_comprehensive_demo():
     print("-" * 15)
     
     users = [
-        User("U001", "Alice Johnson", 5000.0),
-        User("U002", "Bob Smith", 2000.0),
-        User("U003", "Charlie Brown", 1000.0),
+        User("U001", "Rahul", 52000.0),
+        User("U002", "Rohit", 2000.0),
+        User("U003", "Aman", 1000.0),
     ]
     
     for user in users:
@@ -65,21 +66,21 @@ def run_comprehensive_demo():
     print("\n1. Inventory Status:")
     inventory = system.get_inventory_status()
     for pid, details in inventory.items():
-        print(f"   {pid}: {details["name"]} - Qty: {details["quantity"]}, Price: ${details["price"]}")
+        print(f"   {pid}: {details["name"]} - Qty: {details["quantity"]}, Price: ₹{details["price"]}")
     
     print("\n2. User Status:")
     for user_id in ["U001", "U002", "U003"]:
         status = system.get_user_status(user_id)
         if "error" not in status:
-            print(f"   {user_id}: Credit: ${status["available_credit"]}/${status["credit_limit"]}, "
-                  f"Dues: ${status["total_pending_dues"]}, Orders: {status["total_orders"]}")
+            print(f"   {user_id}: Credit: ₹{status["available_credit"]}/₹{status["credit_limit"]}, "
+                  f"Dues: ₹{status["total_pending_dues"]}, Orders: {status["total_orders"]}")
     
     print("\n3. Order History for U002:")
     history = system.get_user_order_history("U002")
     for order in history:
         if "error" not in order:
             print(f"   Order {order["order_id"][:8]}: {order["product_name"]} x{order["quantity"]} - "
-                  f"${order["total_amount"]} ({order["payment_mode"]}) - {order["status"]}")
+                  f"₹{order["total_amount"]} ({order["payment_mode"]}) - {order["status"]}")
     
     print("\nTESTING BLACKLISTING SCENARIO")
     print("-" * 30)
